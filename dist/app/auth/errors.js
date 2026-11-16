@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.invalidGoogleLogin = exports.noTwoStepVerification = exports.alreadyTwoStepVerification = exports.blockedLogin = exports.invalidRefreshToken = exports.noToken = exports.incorrectPassword = exports.invalidCode = exports.optExpired = void 0;
+const error_1 = require("../../pkg/error/error");
+exports.optExpired = new error_1.AppError("OTP expired, please resend otp.", 404);
+exports.invalidCode = new error_1.AppError("Invalid code", 400);
+exports.incorrectPassword = new error_1.AppError("Incorrect password", 403);
+exports.noToken = new error_1.AppError("No token provided", 401);
+exports.invalidRefreshToken = new error_1.AppError("Invalid or expired refresh token", 401);
+exports.blockedLogin = new error_1.AppError("You're temporarily banned", 429);
+exports.alreadyTwoStepVerification = new error_1.AppError("Two step verification is already enabled", 409);
+exports.noTwoStepVerification = new error_1.AppError("Two step verification isn't enabled", 400);
+exports.invalidGoogleLogin = new error_1.AppError("Invalid Google login", 400);
