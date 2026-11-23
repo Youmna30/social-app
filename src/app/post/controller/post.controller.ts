@@ -32,7 +32,7 @@ export class PostController {
         updatedData,
         req.user?.id,
       );
-      res.status(201).send({
+      res.status(200).send({
         message: "Post updated Successfully",
         post: updatedPost,
         success: true,
@@ -51,7 +51,7 @@ export class PostController {
         validateData.postId as unknown as Types.ObjectId,
         req.user?.id,
       );
-      res.status(201).send({
+      res.status(200).send({
         message: "Post deleted Successfully",
         success: true,
       });
@@ -68,7 +68,7 @@ export class PostController {
       const post = await this.postService.getPost(
         validateData.postId as unknown as Types.ObjectId,
       );
-      res.status(201).send({
+      res.status(200).send({
         message: "Post is retrieved Successfully",
         post,
         success: true,
@@ -80,7 +80,7 @@ export class PostController {
   getUserPosts = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const posts = await this.postService.getAllUserPosts(req.user?.id);
-      res.status(201).send({
+      res.status(200).send({
         message: "Posts are retrieved Successfully",
         posts,
         success: true,
