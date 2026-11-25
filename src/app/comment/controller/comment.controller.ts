@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import commentService, { CommentService } from "../service/comment.service";
+import { CommentService } from "../service/comment.service";
 import { Validator } from "../../../lib/validation/validation";
 import {
   createCommentDto,
@@ -8,10 +8,15 @@ import {
 } from "../dto/comment.dto";
 import { Types } from "mongoose";
 import { validatePostId } from "../../post/dto/post.dto";
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
+@injectable()
 export class CommentController {
-  private readonly commentService: CommentService = commentService;
-  constructor() {}
+  constructor(
+    @inject(TOKENS.CommentService)
+    private readonly commentService: CommentService,
+  ) {}
 
   createComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -100,4 +105,3 @@ export class CommentController {
     }
   };
 }
-export default new CommentController();

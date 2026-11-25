@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import authService, { AuthService } from "../service/auth.service";
+import { AuthService } from "../service/auth.service";
 import { loginDTO, registerDTO, verifyAccountDTO } from "../dto/auth.dto";
 import { Validator } from "../../../lib/validation/validation";
 import { noToken } from "../errors";
-class AuthController {
-  private authService: AuthService = authService;
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
-  constructor() {}
+@injectable()
+export class AuthController {
+  constructor(@inject(TOKENS.AuthService) private authService: AuthService) {}
 
   register = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -118,4 +120,3 @@ class AuthController {
     }
   };
 }
-export default new AuthController();

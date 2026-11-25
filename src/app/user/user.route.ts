@@ -1,12 +1,14 @@
 import { Router } from "express";
-import UserController from "./controller/user.controller";
-// import { checkIdempotency } from "../../lib/idempotency/idEmpotency.";
 import { authGuard } from "../../lib/auth/guard";
-const userRouter = Router();
+import { TOKENS } from "../../lib/di/tokens";
+import container from "../../lib/di/container";
+import { UserController } from "./controller/user.controller";
 
-userRouter.get("/get-profile", authGuard, UserController.getProfile);
-userRouter.put("/update-profile", authGuard, UserController.updateProfile);
-userRouter.put("/change-privacy", authGuard, UserController.changePrivacy);
-userRouter.get("/search-users", authGuard, UserController.searchUsers);
+const userRouter = Router();
+const userController = container.resolve<UserController>(TOKENS.UserController);
+userRouter.get("/get-profile", authGuard, userController.getProfile);
+userRouter.put("/update-profile", authGuard, userController.updateProfile);
+userRouter.put("/change-privacy", authGuard, userController.changePrivacy);
+userRouter.get("/search-users", authGuard, userController.searchUsers);
 
 export default userRouter;

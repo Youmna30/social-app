@@ -1,12 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import postService, { PostService } from "../service/post.service";
+import { PostService } from "../service/post.service";
 import { Validator } from "../../../lib/validation/validation";
 import { createPostDto, updatePostDto, validatePostId } from "../dto/post.dto";
 import { Types } from "mongoose";
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
+@injectable()
 export class PostController {
-  private readonly postService: PostService = postService;
-  constructor() {}
+  constructor(
+    @inject(TOKENS.PostService) private readonly postService: PostService,
+  ) {}
 
   createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -90,4 +94,3 @@ export class PostController {
     }
   };
 }
-export default new PostController();

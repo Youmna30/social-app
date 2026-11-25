@@ -1,11 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import followService, { FollowService } from "../service/follow.service";
+import { FollowService } from "../service/follow.service";
 import { Validator } from "../../../lib/validation/validation";
 import { followDto } from "../dto/follow.dto";
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
+@injectable()
 export class FollowController {
-  private readonly followService: FollowService = followService;
-  constructor() {}
+  constructor(
+    @inject(TOKENS.FollowService) private readonly followService: FollowService,
+  ) {}
 
   follow = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -39,5 +43,3 @@ export class FollowController {
     }
   };
 }
-
-export default new FollowController();

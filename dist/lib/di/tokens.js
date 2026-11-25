@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TOKENS = void 0;
+exports.TOKENS = {
+    UserService: Symbol("UserService"),
+    UserController: Symbol("UserController"),
+    UserRepository: Symbol("UserRepository"),
+    AuthService: Symbol("AuthService"),
+    AuthController: Symbol("AuthController"),
+    AuthRepository: Symbol("AuthRepository"),
+    FollowService: Symbol("FollowService"),
+    FollowController: Symbol("FollowController"),
+    FollowRepository: Symbol("FollowRepository"),
+    PostService: Symbol("PostService"),
+    PostController: Symbol("PostController"),
+    PostRepository: Symbol("PostRepository"),
+    CommentService: Symbol("CommentService"),
+    CommentController: Symbol("CommentController"),
+    CommentRepository: Symbol("CommentRepository"),
+    MailjetProvider: Symbol("MailjetProvider"),
+    NodemailerProvider: Symbol("NodemailerProvider"),
+    CacheProvider: Symbol("CacheProvider"),
+};

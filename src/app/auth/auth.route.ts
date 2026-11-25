@@ -1,14 +1,16 @@
 import { Router } from "express";
-import AuthController from "./controller/auth.controller";
-// import { checkIdempotency } from "../../lib/idempotency/idEmpotency.";
-// import { authGuard } from '../../lib/auth/guard.js';
-const authRouter = Router();
+import { AuthController } from "./controller/auth.controller";
+import container from "../../lib/di/container";
+import { TOKENS } from "../../lib/di/tokens";
 
-authRouter.post("/register", AuthController.register);
-authRouter.patch("/verify-account", AuthController.verifyAccount);
-authRouter.post("/login", AuthController.login);
-authRouter.post("/google-login", AuthController.loginWithGoogle);
-authRouter.post("/refresh-token", AuthController.refreshToken);
-authRouter.post("/logout", AuthController.logout);
+const authRouter = Router();
+const authController = container.resolve<AuthController>(TOKENS.AuthController);
+
+authRouter.post("/register", authController.register);
+authRouter.patch("/verify-account", authController.verifyAccount);
+authRouter.post("/login", authController.login);
+authRouter.post("/google-login", authController.loginWithGoogle);
+authRouter.post("/refresh-token", authController.refreshToken);
+authRouter.post("/logout", authController.logout);
 
 export default authRouter;

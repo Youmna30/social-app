@@ -1,10 +1,15 @@
+import { inject, injectable } from "tsyringe";
 import { userNotExist } from "../errors";
 import { IUser } from "../interface/user.interface";
-import userRepository, { UserRepository } from "../repository/user.repository";
+import { UserRepository } from "../repository/user.repository";
+import { TOKENS } from "../../../lib/di/tokens";
 
+@injectable()
 export class UserService {
-  private readonly userRepository: UserRepository = userRepository;
-  constructor() {}
+  constructor(
+    @inject(TOKENS.UserRepository)
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async getProfile(id: string) {
     const user = await this.userRepository.getOne({ _id: id });
@@ -54,5 +59,3 @@ export class UserService {
     return users;
   }
 }
-
-export default new UserService();

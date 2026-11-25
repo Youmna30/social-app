@@ -1,25 +1,32 @@
 import { Router } from "express";
 import { authGuard } from "../../lib/auth/guard";
-import CommentController from "./controller/comment.controller";
+import container from "../../lib/di/container";
+import { TOKENS } from "../../lib/di/tokens";
+import { CommentController } from "./controller/comment.controller";
+
 export const commentRouter = Router();
-commentRouter.get("/get-comment/:id", authGuard, CommentController.getComment);
+
+const commentController = container.resolve<CommentController>(
+  TOKENS.CommentController,
+);
+commentRouter.get("/get-comment/:id", authGuard, commentController.getComment);
 commentRouter.put(
   "/update-comment",
   authGuard,
-  CommentController.updateComment,
+  commentController.updateComment,
 );
 commentRouter.delete(
   "/delete-comment/:id",
   authGuard,
-  CommentController.deleteComment,
+  commentController.deleteComment,
 );
 commentRouter.get(
   "/get-comment-post/:postId",
   authGuard,
-  CommentController.getPostComments,
+  commentController.getPostComments,
 );
 commentRouter.post(
   "/create-comment",
   authGuard,
-  CommentController.createComment,
+  commentController.createComment,
 );

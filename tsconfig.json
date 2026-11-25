@@ -10,7 +10,9 @@
     "module": "nodenext",
     "target": "esnext",
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
     // Language and Environme
   },
   "include": ["src"]

@@ -1,10 +1,7 @@
 import { Types } from "mongoose";
 import { IPost } from "../interface/post.interface";
-import postRepository, { PostRepository } from "../repository/post.repository";
-import userRepository, {
-  UserRepository,
-} from "../../user/repository/user.repository";
-
+import { PostRepository } from "../repository/post.repository";
+import { UserRepository } from "../../user/repository/user.repository";
 import {
   noPost,
   unAuthorisedPostDelete,
@@ -12,11 +9,17 @@ import {
   unVerifiedNotAllowed,
 } from "../errors";
 import { userNotExist } from "../../user/errors";
-export class PostService {
-  private readonly postRepository: PostRepository = postRepository;
-  private readonly userRepository: UserRepository = userRepository;
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
-  constructor() {}
+@injectable()
+export class PostService {
+  constructor(
+    @inject(TOKENS.PostRepository)
+    private readonly postRepository: PostRepository,
+    @inject(TOKENS.UserRepository)
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async createPost(postData: IPost) {
     const user = await this.userRepository.getOne({ _id: postData.userId });
@@ -57,4 +60,3 @@ export class PostService {
     return updatedPost;
   }
 }
-export default new PostService();

@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import userService, { UserService } from "../service/user.service";
+import { UserService } from "../service/user.service";
 import { Validator } from "../../../lib/validation/validation";
 import { updateUserDTO } from "../dto/user.dto";
 import { IUser } from "../interface/user.interface";
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
-class UserController {
-  private userService: UserService = userService;
-  constructor() {}
+@injectable()
+export class UserController {
+  constructor(@inject(TOKENS.UserService) private userService: UserService) {}
 
   getProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -60,5 +62,3 @@ class UserController {
     }
   };
 }
-
-export default new UserController();

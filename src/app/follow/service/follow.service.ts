@@ -1,17 +1,19 @@
+import { inject, injectable } from "tsyringe";
 import { userNotExist } from "../../user/errors";
-import userRepository, {
-  UserRepository,
-} from "../../user/repository/user.repository";
+import { UserRepository } from "../../user/repository/user.repository";
 import { followExists, NoFollowExists, noFollowYourself } from "../errors";
 import { IFollow } from "../Interface/follow.interface";
-import followRepository, {
-  FollowRepository,
-} from "../repository/follow.repository";
+import { FollowRepository } from "../repository/follow.repository";
+import { TOKENS } from "../../../lib/di/tokens";
 
+@injectable()
 export class FollowService {
-  private readonly followRepository: FollowRepository = followRepository;
-  private readonly userRepository: UserRepository = userRepository;
-  constructor() {}
+  constructor(
+    @inject(TOKENS.FollowRepository)
+    private readonly followRepository: FollowRepository,
+    @inject(TOKENS.UserRepository)
+    private readonly userRepository: UserRepository,
+  ) {}
   async followUser(data: IFollow) {
     const checkFollow = await this.followRepository.getOne(data);
     if (checkFollow) throw followExists;
@@ -29,5 +31,3 @@ export class FollowService {
     await this.followRepository.delete(checkFollow._id);
   }
 }
-
-export default new FollowService();

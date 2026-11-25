@@ -1,15 +1,9 @@
 import { Types } from "mongoose";
 import { IComment } from "../interface/comment.interface";
-import commentRepository, {
-  CommentRepository,
-} from "../repository/comment.repository";
-import userRepository, {
-  UserRepository,
-} from "../../user/repository/user.repository";
+import { CommentRepository } from "../repository/comment.repository";
+import { UserRepository } from "../../user/repository/user.repository";
 
-import postRepository, {
-  PostRepository,
-} from "../../post/repository/post.repository";
+import { PostRepository } from "../../post/repository/post.repository";
 
 import {
   noComment,
@@ -20,12 +14,19 @@ import {
 } from "../errors";
 import { userNotExist } from "../../user/errors";
 import { noPost } from "../../post/errors";
-export class CommentService {
-  private readonly commentRepository: CommentRepository = commentRepository;
-  private readonly userRepository: UserRepository = userRepository;
-  private readonly postRepository: PostRepository = postRepository;
+import { inject, injectable } from "tsyringe";
+import { TOKENS } from "../../../lib/di/tokens";
 
-  constructor() {}
+@injectable()
+export class CommentService {
+  constructor(
+    @inject(TOKENS.CommentRepository)
+    private readonly commentRepository: CommentRepository,
+    @inject(TOKENS.UserRepository)
+    private readonly userRepository: UserRepository,
+    @inject(TOKENS.PostRepository)
+    private readonly postRepository: PostRepository,
+  ) {}
 
   async createComment(commentData: IComment) {
     const user = await this.userRepository.getOne({ _id: commentData.userId });
@@ -69,4 +70,3 @@ export class CommentService {
     return updatedComment;
   }
 }
-export default new CommentService();

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express from "express";
 import "./lib/db/mongoose";
 import cors from "cors";
@@ -6,24 +7,22 @@ import { router } from "./router";
 // import { generateCorrelationId } from "./pkg/correlation/correlationId.js";
 import cookieParser from "cookie-parser";
 
-
-
 export function createApp() {
-    const app = express();
-    app.use( cors( {
-        origin: "http://localhost:4200"
-    } ) );
-    app.use( '/uploads', express.static( 'uploads' ) )
-    app.use( express.json() );
-    app.use( cookieParser() );
+  const app = express();
+  app.use(
+    cors({
+      origin: "http://localhost:4200",
+    }),
+  );
+  app.use("/uploads", express.static("uploads"));
+  app.use(express.json());
+  app.use(cookieParser());
 
-    // app.use( generateCorrelationId );
+  // app.use( generateCorrelationId );
 
-    app.use( "/api", router );
+  app.use("/api", router);
 
-    app.use( globalErrorHandler );
+  app.use(globalErrorHandler);
 
-    return app;
+  return app;
 }
-
-
